@@ -21,14 +21,35 @@ func TestSumAll(t *testing.T) {
 		numbers1 := []int{1, 2, 3}
 		numbers2 := []int{1, 2, 3, 4}
 
-		sums := SumAll(numbers1, numbers2)
+		got := SumAll(numbers1, numbers2)
 
 		expected := []int{6, 10}
 
-		if !reflect.DeepEqual(sums, expected) {
-			t.Errorf("Expected %v got %v", expected, sums)
-		}
+		checkDeepEqual(t, got, expected)
 	})
+}
+
+func TestSumAllTails(t *testing.T) {
+	t.Run("Should return the sum of all elements except the first one", func(t *testing.T) {
+		got := SumAllTails([]int{1, 2}, []int{0, 9})
+		expected := []int{2, 9}
+
+		checkDeepEqual(t, got, expected)
+	})
+
+	t.Run("should handle empty slices safely", func(t *testing.T) {
+		got := SumAllTails([]int{}, []int{}, []int{0, 9})
+		expected := []int{0, 0, 9}
+
+		checkDeepEqual(t, got, expected)
+	})
+}
+
+func checkDeepEqual(t testing.TB, got, expected []int) {
+	t.Helper()
+	if !reflect.DeepEqual(got, expected) {
+		t.Errorf("Expected %v got %v", expected, got)
+	}
 }
 
 func checkEqualityHelper(t testing.TB, got, expected int) {
